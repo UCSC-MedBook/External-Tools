@@ -4,6 +4,8 @@ var fs = require("fs");
 //var $ = jQuery = require("jquery");
 var infile = "output/TCGA_PRAD_xena/HiSeqV2";
 var studyID = 'prad_tcga';
+
+
 //var ObjectID = require('mongodb').ObjectID
 //var database = 'MedBook'
 //var connect_string = 'mongodb://127.0.0.1:27017/'+database
@@ -82,10 +84,21 @@ var studyID = 'prad_tcga';
 		  }
                 }
                 }
-            fs.writeFile('studies.json', JSON.stringify(samples), function (err) {
-                      if (err) return console.log(err);
-                        console.log('writing to studies.json');
-                        });
+
+            var study_upsert = {
+                Sample_IDs : samples,
+                gene_expression_index : {}
+            }
+            samples.map(function(sample_ID, n) {
+                study_upsert.gene_expression_index[Sample_ID] = n
+            });
+            
+            var s = 'db.studies.upsert({ id: "' + studyID + '", },' + JSON.stringify(study_upsert, null, 4) + ');\n';
+
+            fs.writeFile('studies_upsert.js', s, function (err) {
+                     if (err) return console.log(err);
+                     console.log('writing to studies_upsert.js');
+            });
             fs.writeFile('expression3.json', JSON.stringify(dataArr), function (err) {
                       if (err) return console.log(err);
                         console.log('writing to expression3.json');
