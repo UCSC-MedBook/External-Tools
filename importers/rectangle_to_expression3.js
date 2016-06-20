@@ -89,7 +89,7 @@ var studyID = 'prad_tcga';
                 Sample_IDs : samples,
                 gene_expression_index : {}
             }
-            samples.map(function(sample_ID, n) {
+            samples.map(function(Sample_ID, n) {
                 study_upsert.gene_expression_index[Sample_ID] = n
             });
             
