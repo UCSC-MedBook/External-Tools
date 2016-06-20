@@ -2,7 +2,7 @@
 //var async = require('async');
 var fs = require("fs");
 //var $ = jQuery = require("jquery");
-var infile = "output/TCGA_PRAD_xena/HiSeqV2";
+var infile = "input.tab";
 var studyID = 'prad_tcga';
 
 
@@ -37,7 +37,6 @@ var studyID = 'prad_tcga';
                 var numsamples = cols.length - 1;
                 var gene = cols[0];
                 //console.log('#row',i,numsamples, row[i])
-                console.log('#row',i,numsamples,cols.join(','))
 		console.log('gene', gene, 'i', i, 'num samples', numsamples)
                 if (gene) {
                   for (var j = 0 ; j < numsamples; j++) {
@@ -56,7 +55,7 @@ var studyID = 'prad_tcga';
                         }
                     }
 		  }
-                data['rsem_quan_log2'] = cols.slice(1,numsamples).join(',')
+                data['rsem_quan_log2'] = cols.slice(1,numsamples).map(Number);
                   //data['_id'] = new ObjectID()
                   //data['Study_ID'] = studyID
                   //data['Collaborations'] = [studyID]
@@ -67,7 +66,7 @@ var studyID = 'prad_tcga';
 			      console.log('#insert ', data)
 			}
 
-                      console.log('data', data)
+                      console.log('#data', data)
                       dataArr.push(data);
                     //  printjson(data);
                 //      collection.insert(data, function(err, docs) {
